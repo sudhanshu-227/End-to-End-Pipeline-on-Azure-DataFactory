@@ -1,0 +1,9 @@
+{
+	"name": "Sudhanshu-dataFactory",
+	"location": "canadacentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4af5842d-5bcf-44e5-929f-83b929a3b495",
+		"tenantId": "b72badea-17ae-447e-9d2a-b467e323b4dd"
+	}
+}
