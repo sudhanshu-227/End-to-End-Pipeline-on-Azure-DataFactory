@@ -37,9 +37,6 @@
 			],
 			"transformations": [
 				{
-					"name": "AirlineJoin"
-				},
-				{
 					"name": "select1"
 				},
 				{
@@ -53,6 +50,9 @@
 				},
 				{
 					"name": "alterRow1"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -91,12 +91,7 @@
 				"     format: 'delta',",
 				"     fileSystem: 'silver',",
 				"     folderPath: 'DimAirline') ~> DimAirlines",
-				"FactBookings, DimAirlines join(FactBookings@airline_id == DimAirlines@airline_id,",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> AirlineJoin",
-				"AirlineJoin select(mapColumn(",
+				"join1 select(mapColumn(",
 				"          booking_id,",
 				"          passenger_id,",
 				"          flight_id,",
@@ -120,6 +115,11 @@
 				"     Top = denseRank()) ~> Rankings",
 				"Rankings filter(Top < 6) ~> filter5",
 				"filter5 alterRow(insertIf(1==1)) ~> alterRow1",
+				"FactBookings, DimAirlines join(FactBookings@airline_id == DimAirlines@airline_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delta',",
